@@ -1,0 +1,21 @@
+{
+  "name": "local-email-sender",
+  "version": "1.0.0",
+  "description": "邮件批量发送服务",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "send": "node src/index.js"
+  },
+  "keywords": [
+    "email",
+    "nodemailer",
+    "batch-email"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "nodemailer": "^6.9.7"
+  }
+}
