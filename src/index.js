@@ -75,6 +75,27 @@ class EmailSender {
   }
 
   /**
+   * 匹配文件路径（支持通配符）
+   */
+  matchPattern(filePath, pattern) {
+    // 统一使用正斜杠
+    const normalizedFilePath = filePath.replace(/\\/g, "/");
+    const normalizedPattern = pattern.replace(/\\/g, "/");
+
+    // 简单的通配符匹配：支持 * 和 **
+    const regexPattern = normalizedPattern
+      .replace(/\./g, "\\.")
+      .replace(/\*\*/g, ":::DOUBLE_STAR:::")
+      .replace(/\*/g, "[^/]*")
+      .replace(/:::DOUBLE_STAR:::/g, ".*");
+
+    const regex = new RegExp(`^${regexPattern}$`);
+    const matched = regex.test(normalizedFilePath);
+
+    return matched;
+  }
+
+  /**
    * 获取所有邮件模板文件
    */
   async getTemplateFiles() {
@@ -94,20 +115,42 @@ class EmailSender {
     let templateFiles = [];
 
     if (files && files.length > 0) {
-      // 使用配置中指定的文件
-      templateFiles = files.map((file) => path.join(templatesDir, file));
+      // 使用配置中指定的文件（支持通配符）
+      console.log(chalk.gray(`  匹配规则: ${files.join(", ")}`));
+      const allHtmlFiles = await this.getHtmlFilesRecursively(templatesDir);
 
-      // 验证文件是否存在
-      const validFiles = [];
-      for (const file of templateFiles) {
-        try {
-          await fs.access(file);
-          validFiles.push(file);
-        } catch (error) {
-          console.log(chalk.yellow(`⚠ 文件不存在: ${path.basename(file)}`));
+      for (const pattern of files) {
+        // 检查是否包含通配符
+        if (pattern.includes("*")) {
+          // 使用通配符匹配
+          const matched = allHtmlFiles.filter((file) => {
+            const relativePath = path.relative(templatesDir, file);
+            return this.matchPattern(relativePath, pattern);
+          });
+
+          if (matched.length > 0) {
+            console.log(
+              chalk.gray(`  规则 "${pattern}" 匹配到 ${matched.length} 个文件`)
+            );
+            templateFiles.push(...matched);
+          } else {
+            console.log(chalk.yellow(`  ⚠ 规则 "${pattern}" 未匹配到任何文件`));
+          }
+        } else {
+          // 精确匹配文件
+          const fullPath = path.join(templatesDir, pattern);
+          try {
+            await fs.access(fullPath);
+            templateFiles.push(fullPath);
+            console.log(chalk.gray(`  找到文件: ${pattern}`));
+          } catch (error) {
+            console.log(chalk.yellow(`  ⚠ 文件不存在: ${pattern}`));
+          }
         }
       }
-      templateFiles = validFiles;
+
+      // 去重
+      templateFiles = [...new Set(templateFiles)];
     } else {
       // 递归读取目录下所有 .html 文件
       templateFiles = await this.getHtmlFilesRecursively(templatesDir);
