@@ -186,8 +186,8 @@ class EmailSender {
     const mailOptions = {
       from: `"${config.from.name}" <${config.from.email}>`,
       to: recipient,
-      subject: subject,
-      html: html,
+      subject,
+      html,
     };
 
     try {
