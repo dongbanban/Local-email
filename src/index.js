@@ -188,6 +188,18 @@ class EmailSender {
       to: recipient,
       subject,
       html,
+      // 添加更多邮件头以提高送达率
+      replyTo: config.replyTo
+        ? `"${config.replyTo.name}" <${config.replyTo.email}>`
+        : undefined,
+      // 添加邮件头信息
+      headers: {
+        "X-Mailer": "NodeMailer",
+        "X-Priority": "3",
+        Importance: "Normal",
+      },
+      // 同时发送纯文本版本（提高送达率）
+      text: this.htmlToText(html),
     };
 
     try {
@@ -214,6 +226,22 @@ class EmailSender {
    */
   delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  /**
+   * 简单的 HTML 转纯文本（用于邮件的 text 版本）
+   */
+  htmlToText(html) {
+    return html
+      .replace(/<style[^>]*>.*?<\/style>/gis, "")
+      .replace(/<script[^>]*>.*?<\/script>/gis, "")
+      .replace(/<[^>]+>/g, "")
+      .replace(/&nbsp;/g, " ")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&amp;/g, "&")
+      .replace(/\s+/g, " ")
+      .trim();
   }
 
   /**
