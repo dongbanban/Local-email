@@ -1,5 +1,5 @@
 /**
- * @file: Local-email/config/email.config.js
+ * @file: /Users/i104/Local-email/config/email.config.js
  * @author: dongyang
  */
 /**
@@ -42,7 +42,7 @@ export default {
     secure: false, // 对于 Gmail 使用 STARTTLS (端口 587)
     auth: {
       user: "yang.dong@xxx.net",
-      pass: "cibjqdaxryvhtevy", // Gmail 应用专用密码
+      pass: "", // Gmail 应用专用密码
     },
     tls: {
       rejectUnauthorized: false,
