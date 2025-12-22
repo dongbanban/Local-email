@@ -54,19 +54,19 @@ recipients: ["recipient1@email.com", "recipient2@email.com"];
 
 ```javascript
 templates: {
-  baseDir: "../top-up/email/common-template",  // 模板目录
+  baseDir: "",  // 模板目录
   files: [],  // 指定模板文件，留空则发送所有 .html 文件
 }
 ```
 
 **files 字段支持以下格式：**
 
-1. **精确匹配**：`["hmp_active_account.html"]` - 匹配指定文件
+1. **精确匹配**：`["fileName.html"]` - 匹配指定文件
 2. **通配符匹配**：
-   - `["hmp_*.html"]` - 匹配 `hmp_` 开头的所有 HTML 文件
-   - `["*/active_*.html"]` - 匹配子目录中 `active_` 开头的文件
-   - `["**/reset_*.html"]` - 递归匹配所有目录中 `reset_` 开头的文件
-3. **混合使用**：`["hmp_*.html", "common/welcome.html", "**/footer_*.html"]`
+   - `["name1_*.html"]` - 匹配 `name1_` 开头的所有 HTML 文件
+   - `["*/name2_*.html"]` - 匹配子目录中 `name2_` 开头的文件
+   - `["**/name3_*.html"]` - 递归匹配所有目录中 `name3_` 开头的文件
+3. **混合使用**：`["name1_*.html", "path/name2.html", "**/name3_*.html"]`
 4. **留空数组**：发送 baseDir 下所有 .html 文件
 
 **示例配置：**
@@ -76,13 +76,13 @@ templates: {
 files: [];
 
 // 发送特定文件
-files: ["hmp_active_account.html", "hmp_reset_password.html"];
+files: ["name_1_1.html", "name_1_2.html"];
 
 // 使用通配符
-files: ["hmp_*.html"]; // 所有以 hmp_ 开头的文件
+files: ["name_*.html"]; // 所有以 name_ 开头的文件
 
 // 递归匹配
-files: ["**/footer_*.html"]; // 所有目录中以 footer_ 开头的文件
+files: ["**/name_*.html"]; // 所有目录中以 name_ 开头的文件
 ```
 
 ### 发送选项
