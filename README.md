@@ -1,4 +1,4 @@
-# Local Email Sender
+# Local Email
 
 邮件批量发送工具，支持批量读取 HTML 模板并发送到指定收件人邮箱。
 
