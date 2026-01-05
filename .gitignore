@@ -1,6 +1,9 @@
 # Dependencies
 node_modules/
 
+# Build output
+out/
+
 # Logs
 logs/
 *.log
@@ -18,4 +21,8 @@ Thumbs.db
 
 # Temporary files
 tmp/
+
+# VSCode extension
+.vscode-test/
+*.vsix
 temp/

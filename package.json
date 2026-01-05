@@ -1,21 +1,128 @@
 {
-  "name": "local-email-sender",
-  "version": "1.0.0",
-  "description": "邮件批量发送服务",
-  "main": "src/index.js",
-  "type": "module",
-  "scripts": {
-    "send": "node src/index.js"
+  "name": "forward-email",
+  "displayName": "Forward Email",
+  "description": "右键点击 HTML 文件快速发送邮件",
+  "version": "1.2.0",
+  "publisher": "dongbambam",
+  "author": {
+    "name": "dongbambam",
+    "email": "215387880@qq.com"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "homepage": "https://github.com/dongbanban/Local-email",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dongbanban/Local-email.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dongbanban/Local-email/issues"
   },
   "keywords": [
     "email",
     "nodemailer",
-    "batch-email"
+    "html",
+    "forward"
   ],
-  "author": "",
-  "license": "MIT",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "forward-email.sendEmail",
+        "title": "Forward Email"
+      },
+      {
+        "command": "forward-email.configure",
+        "title": "配置邮件设置"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "forward-email.sendEmail",
+          "when": "resourceExtname == .html",
+          "group": "navigation@100"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Forward Email",
+      "properties": {
+        "forwardEmail.smtp.host": {
+          "type": "string",
+          "default": "smtp.gmail.com",
+          "description": "SMTP 服务器地址"
+        },
+        "forwardEmail.smtp.port": {
+          "type": "number",
+          "default": 587,
+          "description": "SMTP 服务器端口"
+        },
+        "forwardEmail.smtp.secure": {
+          "type": "boolean",
+          "default": false,
+          "description": "是否使用 SSL/TLS"
+        },
+        "forwardEmail.smtp.user": {
+          "type": "string",
+          "default": "",
+          "description": "发件人邮箱地址"
+        },
+        "forwardEmail.smtp.password": {
+          "type": "string",
+          "default": "",
+          "description": "邮箱授权码/应用专用密码"
+        },
+        "forwardEmail.from.name": {
+          "type": "string",
+          "default": "Email Test",
+          "description": "发件人显示名称"
+        },
+        "forwardEmail.recipients": {
+          "type": "array",
+          "default": [],
+          "description": "收件人邮箱列表",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forwardEmail.sendOptions.retryTimes": {
+          "type": "number",
+          "default": 2,
+          "description": "发送失败重试次数"
+        },
+        "forwardEmail.sendOptions.retryDelay": {
+          "type": "number",
+          "default": 1000,
+          "description": "重试间隔（毫秒）"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/nodemailer": "^6.4.14",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "eslint": "^8.54.0",
+    "typescript": "^5.3.0"
+  },
   "dependencies": {
-    "chalk": "^5.3.0",
     "nodemailer": "^6.9.7"
-  }
+  },
+  "license": "MIT"
 }
