@@ -30,25 +30,24 @@
 
 一般只需要配置收、发件人，Gmail 邮箱授权码/应用专用密码
 
-**注意**：
-生成 Gmail 应用专用密码
-前提条件
+**注意: 生成 Gmail 应用专用密码**：
+
 Gmail 账户必须启用两步验证
 
-步骤 1：启用两步验证（如果未启用）
-访问 https://myaccount.google.com/security
-找到 "两步验证" 并点击
-按照提示完成设置（需要手机验证）
-步骤 2：生成应用专用密码
-两步验证启用后，访问 https://myaccount.google.com/apppasswords
-如果提示登录，输入 Google 账户密码
-在下拉菜单中：
-选择应用：选择 "邮件"
-选择设备：选择 "其他（自定义名称）"
-输入名称：VSCode Forward Email
-点击 生成
-会显示 16 位密码，格式类似：xxxx xxxx xxxx xxxx
-⚠️ 复制这个密码（只显示一次！）
+1. 启用两步验证（如果未启用）
+   访问 https://myaccount.google.com/security
+   找到 "两步验证" 并点击
+   按照提示完成设置（需要手机验证）
+2. 生成应用专用密码
+   两步验证启用后，访问 https://myaccount.google.com/apppasswords
+   如果提示登录，输入 Google 账户密码
+   在下拉菜单中：
+   选择应用：选择 "邮件"
+   选择设备：选择 "其他（自定义名称）"
+   输入名称：VSCode Forward Email
+   点击 生成
+   会显示 16 位密码，格式类似：xxxx xxxx xxxx xxxx
+3. 复制这个密码（只显示一次！）
 
 ## 使用方法
 
